@@ -33,3 +33,4 @@ add_executable(Problem_Z "Assuit_Recursion/Z_Left_Max.cpp")
 
 # --- Dynamic Programming (DP) ---
 add_executable(DP_Frog_1 "DP/Problems/Frog_1.cpp")
+add_executable(DP_Frog_2 "DP/Problems/Frog_2.cpp")
