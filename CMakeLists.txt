@@ -5,6 +5,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(Problem_A "Assuit_Recursion/A_Print_Recursion.cpp"
         Assuit_Recursion/T_Combination.cpp
+        Assuit_Recursion/U_Knapsack.cpp
 )
 add_executable(Problem_B "Assuit_Recursion/B_Print_from_1_to_N.cpp")
 add_executable(Problem_C "Assuit_Recursion/C_Print_from_N_to_1.cpp")
@@ -25,3 +26,4 @@ add_executable(Problem_Q "Assuit_Recursion/Q_3n_Plus_1_Sequence.cpp")
 add_executable(Problem_R "Assuit_Recursion/R_Palindrome_Array.cpp")
 add_executable(Problem_S "Assuit_Recursion/S_Array_Average.cpp")
 add_executable(Problem_T "Assuit_Recursion/T_Combination.cpp")
+add_executable(Problem_U "Assuit_Recursion/U_Knapsack.cpp")
