@@ -46,3 +46,6 @@ add_executable(DP_Coins "DP/Problems/Coins.cpp")
 add_executable(DP_Deque "DP/Problems/Deque.cpp")
 add_executable(DP_Matching "DP/Problems/Matching.cpp")
 add_executable(DP_Digit_Sum "DP/Problems/Digit_Sum.cpp")
+
+# --- DP with Solution Construction ---
+add_executable(DP_LCS "DP/DP with Solution Construction/LCS.cpp")
