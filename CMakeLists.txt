@@ -50,3 +50,4 @@ add_executable(DP_Digit_Sum "DP/Problems/Digit_Sum.cpp")
 # --- DP with Solution Construction ---
 add_executable(DP_LCS "DP/DP with Solution Construction/LCS.cpp")
 add_executable(DP_Palindromic_Subsequence "DP/DP with Solution Construction/Palindromic_Subsequence.cpp")
+add_executable(DP_Changing_a_String "DP/DP with Solution Construction/Changing_a_String.cpp")
