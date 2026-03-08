@@ -1,0 +1,65 @@
+#include <bits/stdc++.h>
+
+
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+template<typename key>
+using ordered_set = tree<key, null_type, less<key>, rb_tree_tag, tree_order_statistics_node_update>;
+
+//zero based
+struct orderedSet {
+    ordered_set<int> se;
+
+    // Add element O(log N)
+    void insert(int val) { se.insert(val); }
+
+    //check existence O(log N)
+    bool exist(int val) {
+        return se.find(val) != se.end();
+    }
+
+    //erase by value O(log N)
+    void erase(int val) {
+        auto it = se.find(val);
+        if (it != se.end()) se.erase(it);
+    }
+
+    // return 0-index position O(log N)
+    int index(int val) {
+        if (!exist(val)) return -1;
+        return se.order_of_key(val);
+    }
+
+    // Returns the value of lower_bound (>= val) O(log N)
+    int lower_bound(int val) {
+        auto it = se.lower_bound(val);
+        return (it == se.end() ? -1 : *it);
+    }
+
+    // Returns the value of upper_bound (> val) O(log N)
+    int upper_bound(int val) {
+        auto it = se.upper_bound(val);
+        return (it == se.end() ? -1 : *it);
+    }
+
+    // Access by index O(log N) st[0]
+    int operator[](int idx) {
+        if (idx < 0 || idx >= (int) se.size()) return -1;
+        return *se.find_by_order(idx);
+    }
+
+    // Number of elements strictly less than x O(log N)
+    int order_of_key(int x) {
+        return se.order_of_key(x);
+    }
+
+    int size() {
+        return se.size();
+    }
+
+    void clear() {
+        se.clear();
+    }
+};
