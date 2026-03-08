@@ -23,6 +23,7 @@ This folder contains my solutions and progress for **Dynamic Programming** probl
 | 15 | Coin Combinations II | [C++](./Coin_Combinations_II.cpp) |     [CSES](https://cses.fi/problemset/task/1636)     |
 | 16 | Grid Paths I         |     [C++](./Grid_Paths_I.cpp)     |     [CSES](https://cses.fi/problemset/task/1638)     |
 | 17 | Book Shop            |      [C++](./Book_Shop.cpp)       |     [CSES](https://cses.fi/problemset/task/1158)     |
+| 18 | Counting Numbers     |   [C++](./Counting_Numbers.cpp)   |     [CSES](https://cses.fi/problemset/task/2220)     |
 
 ---
 
