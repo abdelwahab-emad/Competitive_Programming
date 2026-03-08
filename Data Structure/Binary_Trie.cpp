@@ -1,16 +1,15 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+const int Bits = 30;
 
 struct BinaryTrie {
     struct Node {
         Node *child[2];
-        int frq[2];
-        int leaf_freq;
+        int cnt;
         Node() {
             child[0] = child[1] = nullptr;
-            frq[0] = frq[1] = 0;
-            leaf_freq = 0;
+            cnt = 0;
         }
     };
 
@@ -18,29 +17,59 @@ struct BinaryTrie {
 
     void insert(int n) {
         Node *cur = root;
-        for (int i = 29; i >= 0; i--) {
-            bool idx = (n >> i) & 1;
-            if (!cur->child[idx]) {
-                cur->child[idx] = new Node();
+        for (int i = Bits; i >= 0; i--) {
+            int bit = (n >> i) & 1;
+            if (!cur->child[bit]) {
+                cur->child[bit] = new Node();
             }
-            cur->frq[idx]++;
-            cur = cur->child[idx];
-        }
-        cur->leaf_freq++;
-    }
-
-    void del(int n, int depth, Node *cur) {
-        if (depth == -1) return;
-        bool idx = (n >> depth) & 1;
-        del(n, depth - 1, cur->child[idx]);
-        cur->frq[idx]--;
-        if (cur->frq[idx] == 0) {
-            delete cur->child[idx];
-            cur->child[idx] = nullptr;
+            cur = cur->child[bit];
+            cur->cnt++;
         }
     }
 
     void del(int n) {
-        del(n, 29, root);
+        Node *cur = root;
+        for (int i = Bits; i >= 0; i--) {
+            int bit = (n >> i) & 1;
+            if (cur->child[bit]) {
+                cur = cur->child[bit];
+                cur->cnt--;
+            }
+        }
+    }
+
+    int Max_Xor(int num) {
+        Node *cur = root;
+        int ans = 0;
+        for (int i = Bits; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            int toggled = bit ^ 1;
+            if (cur->child[toggled] and cur->child[toggled]->cnt > 0) {
+                ans |= (1 << i);
+                cur = cur->child[toggled];
+            } else if (cur->child[bit] and cur->child[bit]->cnt > 0) {
+                cur = cur->child[bit];
+            } else {
+                break;
+            }
+        }
+        return ans;
+    }
+
+    int Min_Xor(int num) {
+        Node *cur = root;
+        int ans = 0;
+        for (int i = Bits; i >= 0; i--) {
+            int bit = (num >> i) & 1;
+            if (cur->child[bit] and cur->child[bit]->cnt > 0) {
+                cur = cur->child[bit];
+            } else if (cur->child[bit ^ 1] and cur->child[bit ^ 1]->cnt > 0) {
+                ans |= (1 << i);
+                cur = cur->child[bit ^ 1];
+            } else {
+                break;
+            }
+        }
+        return ans;
     }
 };
