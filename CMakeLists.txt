@@ -51,7 +51,9 @@ add_executable(DP_Minimizing_Coins "DP/Problems/Minimizing_Coins.cpp")
 add_executable(DP_Coin_Combinations_I "DP/Problems/Coin_Combinations_I.cpp")
 add_executable(DP_Coin_Combinations_II "DP/Problems/Coin_Combinations_II.cpp")
 add_executable(DP_Grid_Paths_I "DP/Problems/Grid_Paths_I.cpp")
-add_executable(DP_Book_Shop "DP/Problems/Book_Shop.cpp")
+add_executable(DP_Book_Shop "DP/Problems/Book_Shop.cpp"
+        Strings/Trie.cpp
+)
 add_executable(DP_Counting_Numbers "DP/Problems/Counting_Numbers.cpp")
 
 # --- DP with Solution Construction ---
@@ -65,5 +67,4 @@ add_executable(Segment_tree "Data Structure/Segment_tree.cpp"
         "Data Structure/Sparse_table.cpp"
         "Data Structure/DSU.cpp"
         "Data Structure/Binary_Trie.cpp"
-        "Data Structure/Xor_Trie.cpp"
 )
