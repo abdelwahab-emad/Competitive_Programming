@@ -62,4 +62,5 @@ add_executable(DP_Changing_a_String "DP/DP with Solution Construction/Changing_a
 # --- Data Structure ---
 add_executable(Segment_tree "Data Structure/Segment_tree.cpp"
         "Data Structure/Lazy_Segment_tree.cpp"
+        "Data Structure/Sparse_table.cpp"
 )
