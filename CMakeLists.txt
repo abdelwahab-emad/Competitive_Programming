@@ -68,4 +68,5 @@ add_executable(Segment_tree "Data Structure/Segment_tree.cpp"
         "Data Structure/DSU.cpp"
         "Data Structure/Binary_Trie.cpp"
         "Data Structure/orderedSet.cpp"
+        "Data Structure/orderedMultiset.cpp"
 )
