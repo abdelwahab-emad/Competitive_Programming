@@ -53,6 +53,8 @@ add_executable(DP_Coin_Combinations_II "DP/Problems/Coin_Combinations_II.cpp")
 add_executable(DP_Grid_Paths_I "DP/Problems/Grid_Paths_I.cpp")
 add_executable(DP_Book_Shop "DP/Problems/Book_Shop.cpp"
         Strings/Trie.cpp
+        "Data Structure/Segement tree/Problmes/Dynamic_Range_Minimum_Queries.cpp"
+        "Data Structure/Segement tree/Problmes/Static_Range_Minimum_Queries.cpp"
 )
 add_executable(DP_Counting_Numbers "DP/Problems/Counting_Numbers.cpp")
 
@@ -62,7 +64,7 @@ add_executable(DP_Palindromic_Subsequence "DP/DP with Solution Construction/Pali
 add_executable(DP_Changing_a_String "DP/DP with Solution Construction/Changing_a_String.cpp")
 
 # --- Data Structure ---
-add_executable(Segment_tree "Data Structure/Segment_tree.cpp"
+add_executable(Segment_tree
         "Data Structure/Lazy_Segment_tree.cpp"
         "Data Structure/Sparse_table.cpp"
         "Data Structure/DSU.cpp"
@@ -70,3 +72,7 @@ add_executable(Segment_tree "Data Structure/Segment_tree.cpp"
         "Data Structure/orderedSet.cpp"
         "Data Structure/orderedMultiset.cpp"
 )
+
+
+# --- Segment Tree ---
+add_executable(ST_Dynamic_Range_Minimum_Queries "Data Structure/Segement tree/Problmes/Dynamic_Range_Minimum_Queries.cpp")
