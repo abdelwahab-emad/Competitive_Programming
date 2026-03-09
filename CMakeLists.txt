@@ -66,4 +66,5 @@ add_executable(ST_Dynamic_Range_Sum_Queries "Data Structure/Segment tree/Problem
 add_executable(ST_Dynamic_Range_Minimum_Queries "Data Structure/Segment tree/Problems/Dynamic_Range_Minimum_Queries.cpp"
         "Data Structure/Segment tree/Problems/Range_Xor_Queries.cpp"
         "Data Structure/Segment tree/Problems/Hotel_Queries.cpp"
+        "Data Structure/Segment tree/Problems/Salary_Queries.cpp"
 )
