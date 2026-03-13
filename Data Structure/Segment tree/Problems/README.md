@@ -16,6 +16,6 @@ This folder contains my solutions for **Segment Tree** problems from various pla
 | 8  | Subarray Sum Queries          |     [C++](./Subarray_Sum_Queries.cpp)      |        [CSES](https://cses.fi/problemset/task/1190)         |
 | 9  | R2D2 and Droid Army           |      [C++](./R2D2_and_Droid_Army.cpp)      | [Codeforces](https://codeforces.com/contest/514/problem/D)  |
 | 10 | Xenia and Bit Operations      |   [C++](./Xenia_and_Bit_Operations.cpp)    | [Codeforces](https://codeforces.com/contest/339/problem/D)  |
-| 11 | Distinct Characters Queries      |  [C++](./Distinct_Characters_Queries.cpp)  | [Codeforces](https://codeforces.com/contest/1234/problem/D) |
-| 12 | Factory Repairs      |        [C++](./Factory_Repairs.cpp)        |                       [Codeforces](https://codeforces.com/contest/627/problem/B)                        |
-
+| 11 | Distinct Characters Queries   |  [C++](./Distinct_Characters_Queries.cpp)  | [Codeforces](https://codeforces.com/contest/1234/problem/D) |
+| 12 | Factory Repairs               |        [C++](./Factory_Repairs.cpp)        | [Codeforces](https://codeforces.com/contest/627/problem/B)  |
+| 13 | Sereja and Brackets                              |      [C++](./Sereja_and_Brackets.cpp)      |                       [Codeforces](https://codeforces.com/contest/380/problem/C)                        |

@@ -5,7 +5,6 @@ set(CMAKE_CXX_STANDARD 20)
 
 # --- General ---
 add_executable(General_Practice "main.cpp"
-        "Data Structure/Segment tree/Problems/Distinct_Characters_Queries.cpp"
-        "Data Structure/Segment tree/Problems/Factory_Repairs.cpp"
+        "Data Structure/Segment tree/Problems/Sereja_and_Brackets.cpp"
 )
 
