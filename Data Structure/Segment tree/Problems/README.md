@@ -2,7 +2,6 @@
 
 This folder contains my solutions for **Segment Tree** problems from various platforms.
 
-## 📊 Problems Table
 
 | #  | Problem Name                  |                  Solution                  |                        Problem Link                         |
 |:--:|:------------------------------|:------------------------------------------:|:-----------------------------------------------------------:|
