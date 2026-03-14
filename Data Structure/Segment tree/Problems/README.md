@@ -19,4 +19,5 @@ This folder contains my solutions for **Segment Tree** problems from various pla
 | 11 | Distinct Characters Queries   |  [C++](./Distinct_Characters_Queries.cpp)  | [Codeforces](https://codeforces.com/contest/1234/problem/D) |
 | 12 | Factory Repairs               |        [C++](./Factory_Repairs.cpp)        | [Codeforces](https://codeforces.com/contest/627/problem/B)  |
 | 13 | Sereja and Brackets           |      [C++](./Sereja_and_Brackets.cpp)      | [Codeforces](https://codeforces.com/contest/380/problem/C)  |
-| 14 | Ant colony                              |          [C++](./Ant_colony.cpp)           |                       [Codeforces](https://codeforces.com/contest/474/problem/F)                        |
+| 14 | Ant colony                    |          [C++](./Ant_colony.cpp)           | [Codeforces](https://codeforces.com/contest/474/problem/F)  |
+| 15 | Interesting Array                              |       [C++](./Interesting_Array.cpp)       |                       [Codeforces](https://codeforces.com/contest/482/problem/B)                        |
