@@ -2,7 +2,6 @@
 
 This folder contains my solutions and progress for **Dynamic Programming** problems.
 
-## 📊 Problems Table
 
 | #  | Problem Name         |             Solution              |                     Problem Link                     |
 |:--:|:---------------------|:---------------------------------:|:----------------------------------------------------:|
@@ -25,10 +24,3 @@ This folder contains my solutions and progress for **Dynamic Programming** probl
 | 17 | Book Shop            |      [C++](./Book_Shop.cpp)       |     [CSES](https://cses.fi/problemset/task/1158)     |
 | 18 | Counting Numbers     |   [C++](./Counting_Numbers.cpp)   |     [CSES](https://cses.fi/problemset/task/2220)     |
 
----
-
-## 📁 Folder Structure
-* **Solutions:** DP problems.
-
----
-*Stay consistent and keep coding!*
