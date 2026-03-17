@@ -4,6 +4,4 @@ project(Competitive_Programming)
 set(CMAKE_CXX_STANDARD 20)
 
 # --- General ---
-add_executable(General_Practice "main.cpp"
-        Math/Counting.cpp
-)
+add_executable(General_Practice "main.cpp")
