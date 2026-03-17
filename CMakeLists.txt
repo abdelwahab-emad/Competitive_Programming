@@ -4,7 +4,4 @@ project(Competitive_Programming)
 set(CMAKE_CXX_STANDARD 20)
 
 # --- General ---
-add_executable(General_Practice "main.cpp"
-        "Data Structure/MO/Problems/Triple_Index.cpp"
-        "Data Structure/MO/Problems/Most_Frequent_Value.cpp"
-)
+add_executable(General_Practice "main.cpp")
