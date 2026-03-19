@@ -84,7 +84,6 @@ struct SegTree {
         return get(l, r, 0, 0, tree_size);
     }
 
-
     void inti(vector<int>& v, int ni, int lx, int rx) {
         if (rx - lx == 1) {
             if (lx < (int)v.size())

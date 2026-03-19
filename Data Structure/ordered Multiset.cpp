@@ -6,6 +6,7 @@ using namespace std;
 template<typename key>
 using ordered_multiset = tree<key, null_type, less_equal<key>, rb_tree_tag, tree_order_statistics_node_update>;
 
+
 struct orderedMultiset {
     ordered_multiset<int> st;
 

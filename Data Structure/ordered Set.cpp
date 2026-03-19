@@ -8,6 +8,7 @@ using namespace std;
 template<typename key>
 using ordered_set = tree<key, null_type, less<key>, rb_tree_tag, tree_order_statistics_node_update>;
 
+
 //zero based
 struct orderedSet {
     ordered_set<int> st;

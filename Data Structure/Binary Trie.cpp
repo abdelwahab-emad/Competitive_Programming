@@ -2,7 +2,6 @@
 using namespace std;
 
 const int Bits = 30;
-
 struct BinaryTrie {
     struct Node {
         Node *child[2];

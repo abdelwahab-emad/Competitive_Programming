@@ -49,27 +49,3 @@ struct Mo {
         }
     }
 };
-
-int main (){
-    int n, q;
-    cin >> n >> q;
-    vector<int> v(n);
-    for (int i = 0; i < n; i++)
-    {
-        cin >> v[i];
-    }
-    Mo mo(v);
-    for (int i = 0; i < q; i++)
-    {
-        int l, r;
-        cin >> l >> r;
-        mo.add_query(l - 1, r - 1, i);
-    }
-
-    mo.process();
-
-    for (int i = 0; i < q; i++)
-    {
-        cout << mo.ans[i] << endl;
-    }
-}

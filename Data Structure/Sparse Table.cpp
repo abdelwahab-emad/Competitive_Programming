@@ -10,7 +10,6 @@ struct Node {
         val = a;
     }
 };
-
 struct SparseTable {
     vector<vector<Node>> SP;
     int n;
