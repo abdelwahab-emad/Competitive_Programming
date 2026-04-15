@@ -5,19 +5,27 @@ using namespace std;
 #define int long long
 
 void solve() {
-    int mod = 1e9 + 7;
     int n;cin >> n;
-    int res = 1;
-    while(n--){
-        res = (res * 2) % mod;
+    map<int,int>m;
+    for(int i = 0;i < n - 1;i++){
+        int x;cin >> x;
+        m[x]++;
     }
-    cout << res;
+    int i = 1;
+    while(i <= n){
+        if(m[i] == 0){
+            cout << i;
+            return;
+        }
+        i++;
+    }
 }
+
 signed main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     int t = 1;
-    // cin >> t;
+    //cin >> t;
     while (t--) {
         solve();
     }
