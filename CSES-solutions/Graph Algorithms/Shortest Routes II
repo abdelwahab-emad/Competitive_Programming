@@ -1,0 +1,113 @@
+/* problem statement text */
+/*
+CSES - Shortest Routes II
+
+Time limit: 1.00 s
+Memory limit: 512 MB
+
+There are nnn cities and mmm roads between them. Your task is to process qqq queries where you have to determine the length of the shortest route between two given cities.
+Input
+The first input line has three integers nnn, mmm and qqq: the number of cities, roads, and queries.
+Then, there are mmm lines describing the roads. Each line has three integers aaa, bbb and ccc: there is a road between cities aaa and bbb whose length is ccc. All roads are two-way roads.
+Finally, there are qqq lines describing the queries. Each line has two integers aaa and bbb: determine the length of the shortest route between cities aaa and bbb.
+Output
+Print the length of the shortest route for each query. If there is no route, print −1-1−1 instead.
+Constraints
+
+1≤n≤5001 \le n \le 5001≤n≤500
+1≤m≤n21 \le m \le n^21≤m≤n2
+1≤q≤1051 \le q \le 10^51≤q≤105
+1≤a,b≤n1 \le a,b \le n1≤a,b≤n
+1≤c≤1091 \le c \le 10^91≤c≤109
+
+Example
+Input:
+4 3 5
+1 2 5
+1 3 9
+2 3 3
+1 2
+2 1
+1 3
+1 4
+3 2
+
+Output:
+5
+5
+8
+-1
+3
+*/
+
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> ordered_multiset;
+ 
+#define endl "\n"
+#define int long long
+#define ll long long
+#define ld long double
+struct DSU {
+    vector<int>parent, sizes;
+    int cnt;
+    void init(int n) {
+        cnt = n;
+        parent.resize(n + 2);
+        sizes.resize(n + 2);
+        for (int i = 1; i <= n; i++) {
+            parent[i] = i;
+            sizes[i] = 1;
+        }
+    }
+    int Leader(int u) {
+        if (parent[u] == u) return u;
+        return parent[u] = Leader(parent[u]);
+    }
+    int merge(int u, int v) {
+        int leader_u = Leader(u);
+        int leader_v = Leader(v);
+        if (leader_u == leader_v) return 0;
+        if (sizes[leader_u] > sizes[leader_v]) swap(leader_u, leader_v);
+        parent[leader_u] = leader_v;
+        sizes[leader_v] += sizes[leader_u];
+        cnt--;
+        return 1;
+    }
+};
+ 
+const int INF = 1e18;
+int dis[502][502];
+ 
+void solve () {
+    int n,m,q; cin >> n >> m >> q;
+    fill(&dis[0][0], &dis[0][0] + 502 * 502, INF);
+    for (int i = 1; i <= n; i++) dis[i][i] = 0;
+    for (int i = 0; i < m; i++) {
+        int u, v, w; cin >> u >> v >> w;
+        dis[u][v] = dis[v][u] = min(dis[u][v], w);
+    }
+    for (int k = 1; k <= n; k++) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (dis[i][k] < INF and dis[k][j] < INF) {
+                    dis[i][j] = min(dis[i][j], dis[i][k] + dis[k][j]);
+                }
+            }
+        }
+    }
+    while(q--){
+        int u, v;cin >> u >> v;
+        cout << (dis[u][v] == INF ? -1 : dis[u][v]) << endl;
+    }
+}
+ 
+signed main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t = 1;
+    while (t--) solve();
+}
