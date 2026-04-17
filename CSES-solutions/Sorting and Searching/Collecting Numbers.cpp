@@ -14,24 +14,17 @@ void go() {
 #define ll long long
 #define int long long
 
-void solve(){
-    int n, k; cin >> n >> k;
-    vector<int>v(n);
-    for(int i = 0;i < n;i++)cin >> v[i];
-    map<int,int>m;
-    int l = 0, r = 0;
-    int sub = 0;
-    while (r < n) {
-        m[v[r]]++;
-        while (m.size() > k) {
-            m[v[l]]--;
-            if(m[v[l]] == 0)m.erase(v[l]);
-            l++;
-        }
-        sub += (r - l + 1);
-        r++;
+void solve() {
+    int a; cin >> a; vector<int>v(a);
+    for(int i = 0;i < a;i++)cin >> v[i];
+    map<int, int>m;
+    vector<ll>re;
+    re.push_back(v[0] + 1); m[v[0] + 1]++;
+    for (int i = 1; i < a; i++) {
+        if (m[v[i]] == 0)re.push_back(v[i] + 1);
+        m[v[i] + 1]++;
     }
-    cout << sub;
+    cout << re.size();
 }
 signed main() {
     go();

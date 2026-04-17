@@ -14,16 +14,19 @@ void go() {
 #define ll long long
 #define int long long
 
-void solve() {
-    int n;
-    cin >> n;
-    set<int> st;
-    for (int i = 0; i < n; i++) {
-        int x;
-        cin >> x;
-        st.insert(x);
+void solve(){
+    ll n,x;cin>>n>>x;
+    map<ll,int>m;
+    ll ans=0,sum=0;
+    m[0]=1;
+    for(int i=0;i<n;i++)
+    {
+        ll w;cin>>w;
+        sum+=w;
+        ans+=m[sum-x];
+        m[sum]++;
     }
-    cout << st.size();
+    cout<<ans;
 }
 signed main() {
     go();
