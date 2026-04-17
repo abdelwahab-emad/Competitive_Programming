@@ -1,0 +1,120 @@
+/* problem statement text */
+/*
+CSES - Road Reparation
+
+Time limit: 1.00 s
+Memory limit: 128 MB
+
+There are nnn cities and mmm roads between them. Unfortunately, the condition of the roads is so poor that they cannot be used. Your task is to repair some of the roads so that there will be a decent route between any two cities.
+For each road, you know its reparation cost, and you should find a solution where the total cost is as small as possible.
+Input
+The first input line has two integers nnn and mmm: the number of cities and roads. The cities are numbered 1,2,…,n1,2,\dots,n1,2,…,n.
+Then, there are mmm lines describing the roads. Each line has three integers aaa, bbb and ccc: there is a road between cities aaa and bbb, and its reparation cost is ccc. All roads are two-way roads.
+Every road is between two different cities, and there is at most one road between two cities.
+Output
+Print one integer: the minimum total reparation cost. However, if there are no solutions, print "IMPOSSIBLE".
+Constraints
+
+1≤n≤1051 \le n \le 10^51≤n≤105
+1≤m≤2⋅1051 \le m \le 2 \cdot 10^51≤m≤2⋅105
+1≤a,b≤n1 \le a,b \le n1≤a,b≤n
+1≤c≤1091 \le c \le 10^91≤c≤109
+
+Example
+Input:
+5 6
+1 2 3
+2 3 5
+2 4 2
+3 4 8
+5 1 7
+5 4 4
+
+Output:
+14
+*/
+
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace std;
+#define int long long
+using namespace __gnu_pbds;
+typedef tree<int, null_type, less_equal<int>, rb_tree_tag, tree_order_statistics_node_update> ordered_multiset;
+struct DSU {
+    vector<int>parent, sizes;
+    int cnt,mx;
+    void init(int n)
+    {
+        parent.resize(n + 2);
+        sizes.resize(n + 2);
+        cnt = n;
+        mx = 1;
+        for (int i = 1; i <= n; i++)
+        {
+            parent[i] = i;
+            sizes[i] = 1;
+        }
+    }
+ 
+    int Leader(int u)
+    {
+        if (parent[u] == u)
+            return u;
+        return parent[u] = Leader(parent[u]);
+    }
+    bool merge(int u, int v)
+    {
+        int leader_u = Leader(u);
+        int leader_v = Leader(v);
+ 
+        if (leader_u == leader_v)
+            return 0;
+ 
+        if (sizes[leader_u] > sizes[leader_v])
+            swap(leader_u, leader_v);
+ 
+        parent[leader_u] = leader_v;
+        sizes[leader_v] += sizes[leader_u];
+        mx = max(mx,sizes[leader_v]);
+        cnt--;
+        return 1;
+    }
+};
+struct node{
+    int c,u,v;
+};
+void solve() {
+    int n, m;
+    cin >> n >> m;
+    DSU d;
+    d.init(n);
+    vector<pair<pair<int, int>, int>> adj(m);
+    for (int i = 0; i < m; i++) {
+        int u, v, c;
+        cin >> u >> v >> c;
+        adj[i] = {{c, v}, u};
+    }
+    sort(adj.begin(), adj.end());
+    int sum = 0;
+    for (int i = 0; i < m; i++) {
+        int u = adj[i].first.second, v = adj[i].second;
+        if (d.merge(u, v)) {
+            sum += adj[i].first.first;
+        }
+    }
+    if (d.mx == n)
+        cout << sum;
+    else
+        cout << "IMPOSSIBLE";
+}
+signed main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t = 1;
+    //cin >> t;
+    while(t--){
+        solve();
+    }
+    return 0;
+}
