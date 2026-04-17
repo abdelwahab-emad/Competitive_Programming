@@ -1,0 +1,98 @@
+/* problem statement text */
+/*
+CSES - Planets Queries I
+
+Time limit: 1.00 s
+Memory limit: 512 MB
+
+You are playing a game consisting of nnn planets. Each planet has a teleporter to another planet (or the planet itself).
+Your task is to process qqq queries of the form: when you begin on planet xxx and travel through kkk teleporters, which planet will you reach?
+Input
+The first input line has two integers nnn and qqq: the number of planets and queries. The planets are numbered 1,2,…,n1,2,\dots,n1,2,…,n.
+The second line has nnn integers t1,t2,…,tnt_1,t_2,\dots,t_nt1​,t2​,…,tn​: for each planet, the destination of the teleporter. It is possible that ti=it_i=iti​=i.
+Finally, there are qqq lines describing the queries. Each line has two integers xxx and kkk: you start on planet xxx and travel through kkk teleporters.
+Output
+Print the answer to each query.
+Constraints
+
+1≤n,q≤2⋅1051 \le n, q \le 2 \cdot 10^51≤n,q≤2⋅105
+1≤ti≤n1 \le t_i \le n1≤ti​≤n
+1≤x≤n1 \le x \le n1≤x≤n
+0≤k≤1090 \le k \le 10^90≤k≤109
+
+Example
+Input:
+4 3
+2 1 1 4
+1 2
+3 4
+4 1
+
+Output:
+1
+2
+4
+*/
+
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
+#include <ext/pb_ds/tree_policy.hpp>
+using namespace __gnu_pbds;
+using namespace std;
+typedef tree<int,null_type,less<int>,rb_tree_tag,tree_order_statistics_node_update> ordered_multiset;
+ 
+#define endl "\n"
+#define int long long
+#define ll long long
+#define ld long double
+ 
+struct LCA{
+    int N, LOG;
+    vector<vector<int>> anc;
+    vector<int> a;
+ 
+    void init(int n, vector<int>&v){
+        N = n;
+        a = v;
+        LOG = 0;
+        while((1LL << LOG) <= 1e9) LOG++;
+        anc.assign(LOG, vector<int>(N+5, 0));
+        go();
+    }
+ 
+    void go(){
+        for(int i = 1; i <= N; i++) anc[0][i] = a[i];
+        for(int j = 1; j < LOG; j++){
+            for(int i = 1; i <= N; i++){
+                anc[j][i] = anc[j-1][ anc[j-1][i] ];
+            }
+        }
+    }
+ 
+    int kth_ancestor(int u, int k){
+        for(int i = 0; i < LOG; i++){
+            if(k & (1LL << i)) u = anc[i][u];
+        }
+        return u;
+    }
+};
+ 
+void Solve(){
+    int n, q; cin >> n >> q;
+    vector<int> v(n+1);
+    for(int i = 1; i <= n; i++) cin >> v[i];
+    LCA lca;
+    lca.init(n,v);
+    while(q--){
+        int u, k; cin >> u >> k;
+        cout << lca.kth_ancestor(u,k) << endl;
+    }
+}
+ 
+signed main(){
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int t = 1;
+    // cin >> t;
+    while(t--) Solve();
+}
