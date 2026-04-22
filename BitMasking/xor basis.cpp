@@ -68,4 +68,14 @@ struct XorBasis {
         int idx = (k - 1) / block + 1;
         return getKthUnique(idx);
     }
+
+    bool canRepresent(int x) {
+        for (int i = Bit - 1; i >= 0; i--) {
+            if (basis[i] == 0) continue;
+            if ((x ^ basis[i]) < x) {
+                x ^= basis[i];
+            }
+        }
+        return (x == 0);
+    }
 };
