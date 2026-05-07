@@ -1,0 +1,80 @@
+#include <bits/stdc++.h>
+using namespace std;
+void file(){
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+}
+#define Code_By_Abdelwabab ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+#define endl "\n"
+#define int long long
+#define ll long long
+#define ld long double
+#define sz(s) (int)(s).size()
+ 
+struct FenwickTree{
+    vector<int> bit;
+    int siz;
+    FenwickTree(int n)
+    {
+        siz = n;
+        bit = vector<int> (siz);
+    }
+    void update(int idx, int val)
+    {
+        while(idx < siz)
+        {
+            bit[idx] += val;
+            idx += idx & -idx;
+        }
+    }
+    int query(int idx)
+    {
+        int res = 0;
+        while(idx > 0)
+        {
+            res += bit[idx];
+            idx -= idx & -idx;
+        }
+        return res;
+    }
+    int prefix(int l,int r)
+    {
+        return query(r) - query(l - 1);
+    }
+};
+ 
+void solve() {
+    int n, q;cin >> n >> q;
+    vector<int> v(n + 1);
+    for(int i = 1;i <= n;i++)cin >> v[i];
+    map<int, vector<pair<int, int>>> mp;
+    for(int i = 0;i < q;i++){
+        int l, r;cin >> l >> r;
+        mp[r].push_back({l, i});
+    }
+ 
+    FenwickTree bit(n + 2);
+    map<int, int> ls;
+    vector<int> ans(q);
+    for(int r = 1;r <= n;r++){
+        if(ls.find(v[r]) != ls.end()){
+            bit.update(ls[v[r]], -1);
+        }
+        bit.update(r, 1);
+        ls[v[r]] = r;
+        for(auto &[l, i] : mp[r]){
+            ans[i] = bit.prefix(l, r);
+        }
+    }
+    for(auto re : ans)cout << re << endl;
+}
+signed main() {
+    Code_By_Abdelwabab
+    int t = 1;
+    //cin >> t;
+    while(t--){
+        solve();
+    }
+}
