@@ -1,0 +1,89 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define Code_By_Abdelwabab ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+#define endl "\n"
+#define int long long
+ 
+struct Node {
+    int sum;
+    Node() {
+        sum = 0;
+    }
+    Node(int x) {
+        sum = x;
+    }
+};
+ 
+struct SegTree {
+    int tree_size;
+    vector<Node> SegData;
+ 
+    SegTree(int n) {
+        tree_size = 1;
+        while (tree_size < n) tree_size *= 2;
+        SegData.assign(2 * tree_size, Node());
+    }
+ 
+    Node merge(Node &lf, Node &ri) {
+        Node ans;
+        ans.sum = lf.sum + ri.sum;
+        return ans;
+    }
+ 
+    void inti(int n, int ni, int lx, int rx) {
+        if (rx - lx == 1) {
+            if (lx < n) SegData[ni] = Node(1);
+            return;
+        }
+        int mid = (lx + rx) / 2;
+        inti(n, 2 * ni + 1, lx, mid);
+        inti(n, 2 * ni + 2, mid, rx);
+        SegData[ni] = merge(SegData[2 * ni + 1], SegData[2 * ni + 2]);
+    }
+ 
+    void inti(int n) {
+        inti(n, 0, 0, tree_size);
+    }
+ 
+    int find_kth(int k, int ni, int lx, int rx) {
+        if (rx - lx == 1) {
+            SegData[ni].sum = 0;
+            return lx;
+        }
+        int mid = (lx + rx) / 2;
+        int left_sum = SegData[2 * ni + 1].sum;
+        int res;
+        if (k <= left_sum) {
+            res = find_kth(k, 2 * ni + 1, lx, mid);
+        } else {
+            res = find_kth(k - left_sum, 2 * ni + 2, mid, rx);
+        }
+        SegData[ni] = merge(SegData[2 * ni + 1], SegData[2 * ni + 2]);
+        return res;
+    }
+ 
+    int find_kth(int k) {
+        return find_kth(k, 0, 0, tree_size);
+    }
+};
+ 
+void solve() {
+    int n;cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++) cin >> a[i];
+    SegTree st(n);
+    st.inti(n);
+    for (int i = 0; i < n; i++) {
+        int p;
+        cin >> p;
+        cout << a[st.find_kth(p)] << (i == n - 1 ? "" : " ");
+    }
+    cout << endl;
+}
+ 
+signed main() {
+    Code_By_Abdelwabab
+    solve();
+    return 0;
+}
