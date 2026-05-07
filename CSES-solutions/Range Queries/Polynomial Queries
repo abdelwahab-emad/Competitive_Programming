@@ -1,0 +1,148 @@
+#include <bits/stdc++.h>
+using namespace std;
+void file(){
+#ifndef ONLINE_JUDGE
+    freopen("input.txt", "r", stdin);
+    freopen("output.txt", "w", stdout);
+#endif
+}
+#define Code_By_Abdelwabab ios::sync_with_stdio(false); cin.tie(nullptr); cout.tie(nullptr);
+#define endl "\n"
+#define int long long
+#define ll long long
+#define ld long double
+#define sz(s) (int)(s).size()
+#define mid ((lx + rx) / 2)
+#define lNode (ni*2+1)
+#define rNode (ni*2+2)
+ 
+int get(int x){
+    return x*(x+1)/2;
+}
+ 
+struct Node{
+    int val, a, d;
+    bool isLazy;
+    Node() {
+        val = 0;
+        a = 0;
+        d = 0;
+        isLazy = 0;
+    }
+    Node(int x) {
+        val = x;
+        a = 0;
+        d = 0;
+        isLazy = 0;
+    }
+    void apply(int a0, int d0, int len){
+        val += len*a0 + d0*(len*(len-1)/2);
+        a += a0;
+        d += d0;
+        isLazy = 1;
+    }
+ 
+};
+ 
+struct SegTree{
+    int tree_size;
+    vector<Node> SegData;
+ 
+    SegTree(int n){
+        tree_size = 1;
+        while(tree_size < n) tree_size *= 2;
+        SegData.assign(2*tree_size, Node());
+    }
+ 
+    Node merge(Node &lf, Node &ri){
+        Node ans;
+        ans.val = lf.val + ri.val;
+        return ans;
+    }
+ 
+    void propagate(int ni, int lx, int rx){
+        if(rx-lx == 1 || !SegData[ni].isLazy) return;
+        int len = rx-lx;
+        int left_len = mid-lx;
+        int right_len = rx-mid;
+        int a0 = SegData[ni].a;
+        int d0 = SegData[ni].d;
+ 
+        SegData[lNode].apply(a0, d0, left_len);
+        SegData[rNode].apply(a0 + d0*left_len, d0, right_len);
+ 
+        SegData[ni].a = SegData[ni].d = 0;
+        SegData[ni].isLazy = 0;
+    }
+ 
+    int update(int l, int r, int st, int ni, int lx, int rx){
+        propagate(ni, lx, rx);
+        if(lx >= r || rx <= l) return st;
+        if(lx >= l && rx <= r){
+            int len = rx-lx;
+            SegData[ni].apply(st, 1, len);
+            return st + len;
+        }
+        st = update(l, r, st, lNode, lx, mid);
+        st = update(l, r, st, rNode, mid, rx);
+        SegData[ni] = merge(SegData[lNode], SegData[rNode]);
+        return st;
+    }
+ 
+    void update(int l, int r){
+        update(l, r, 1, 0, 0, tree_size);
+    }
+ 
+    Node get(int l, int r, int ni, int lx, int rx){
+        propagate(ni, lx, rx);
+        if(lx >= r || rx <= l) return Node();
+        if(lx >= l && rx <= r) return SegData[ni];
+        Node lf = get(l, r, lNode, lx, mid);
+        Node ri = get(l, r, rNode, mid, rx);
+        return merge(lf, ri);
+    }
+ 
+    Node get(int l, int r){
+        return get(l, r, 0, 0, tree_size);
+    }
+ 
+    void inti(vector<int>& v, int ni, int lx, int rx){
+        if(rx-lx == 1){
+            if(lx < sz(v)) SegData[ni] = Node(v[lx]);
+            return;
+        }
+        inti(v, lNode, lx, mid);
+        inti(v, rNode, mid, rx);
+        SegData[ni] = merge(SegData[lNode], SegData[rNode]);
+    }
+ 
+    void inti(vector<int>& v){
+        inti(v, 0, 0, tree_size);
+    }
+};
+ 
+void solve(){
+    int n, q; cin >> n >> q;
+    vector<int> v(n);
+    for(int i=0;i<n;i++) cin >> v[i];
+    SegTree seg(n);
+    seg.inti(v);
+    while(q--){
+        int ope; cin >> ope;
+        if(ope == 1){
+            int l, r; cin >> l >> r;
+            --l;
+            seg.update(l, r);
+        } else{
+            int l, r; cin >> l >> r;
+            --l;
+            cout << seg.get(l, r).val << endl;
+        }
+    }
+}
+ 
+signed main(){
+    Code_By_Abdelwabab
+    file();
+    solve();
+}
