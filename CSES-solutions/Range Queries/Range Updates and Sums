@@ -1,0 +1,141 @@
+#include <bits/stdc++.h>
+using namespace std;
+ 
+#define int long long
+#define mid ((lx + rx) / 2)
+#define lNode (ni * 2 + 1)
+#define rNode (ni * 2 + 2)
+ 
+struct Node {
+    int val, LazyAssign, LazyAdd;
+    bool IsLazyAssign, IsLazyAdd;
+    Node() {
+        val = 0;
+        IsLazyAssign = IsLazyAdd = LazyAdd = LazyAssign = 0;
+    }
+    Node(int x) {
+        val = x;
+        IsLazyAssign = IsLazyAdd = LazyAdd = LazyAssign = 0;
+    }
+    void assign(int x, int lx, int rx) {
+        val = x * (rx - lx);
+        LazyAssign = x;
+        IsLazyAssign = 1;
+        IsLazyAdd = LazyAdd = 0;
+    }
+    void add(int x, int lx, int rx) {
+        val += x * (rx - lx);
+        LazyAdd += x, IsLazyAdd = 1;
+    }
+};
+ 
+struct SegTree {
+    int tree_size;
+    vector<Node> SegData;
+ 
+    SegTree(int n) {
+        tree_size = 1;
+        while (tree_size < n) tree_size *= 2;
+        SegData.assign(2 * tree_size, Node());
+    }
+ 
+    Node merge(Node &lf, Node &ri) {
+        Node ans;
+        ans.val = lf.val + ri.val;
+        return ans;
+    }
+ 
+    void propagate(int ni, int lx, int rx) {
+        if (rx - lx == 1) return;
+ 
+        if (SegData[ni].IsLazyAssign) {
+            SegData[lNode].assign(SegData[ni].LazyAssign, lx, mid);
+            SegData[rNode].assign(SegData[ni].LazyAssign, mid, rx);
+        }
+ 
+        if (SegData[ni].IsLazyAdd) {
+            SegData[lNode].add(SegData[ni].LazyAdd, lx, mid);
+            SegData[rNode].add(SegData[ni].LazyAdd, mid, rx);
+        }
+        SegData[ni].IsLazyAssign = false;
+        SegData[ni].IsLazyAdd = false;
+        SegData[ni].LazyAssign = 0;
+        SegData[ni].LazyAdd = 0;
+    }
+ 
+    void assign(int l, int r, int val, int ni, int lx, int rx) {
+        propagate(ni, lx, rx);
+        if (lx >= r || rx <= l) return;
+        if (lx >= l && rx <= r) {
+            SegData[ni].assign(val, lx, rx);
+            return;
+        }
+        assign(l, r, val, lNode, lx, mid);
+        assign(l, r, val, rNode, mid, rx);
+        SegData[ni] = merge(SegData[lNode], SegData[rNode]);
+    }
+ 
+    void add(int l, int r, int val, int ni, int lx, int rx) {
+        propagate(ni, lx, rx);
+        if (lx >= r || rx <= l) return;
+        if (lx >= l && rx <= r) {
+            SegData[ni].add(val, lx, rx);
+            return;
+        }
+        add(l, r, val, lNode, lx, mid);
+        add(l, r, val, rNode, mid, rx);
+        SegData[ni] = merge(SegData[lNode], SegData[rNode]);
+    }
+ 
+    void assign(int l, int r, int val) {
+        assign(l, r, val, 0, 0, tree_size);
+    }
+ 
+    void add(int l, int r, int val) {
+        add(l, r, val, 0, 0, tree_size);
+    }
+ 
+    int get(int l, int r, int ni, int lx, int rx) {
+        propagate(ni, lx, rx);
+        if (lx >= r || rx <= l) return 0;
+        if (lx >= l && rx <= r) return SegData[ni].val;
+        int lf = get(l, r, lNode, lx, mid);
+        int ri = get(l, r, rNode, mid, rx);
+        return lf + ri;
+    }
+ 
+    int get(int l, int r) {
+        return get(l, r, 0, 0, tree_size);
+    }
+};
+signed main() {
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    int n, m;
+    cin >> n >> m;
+    SegTree seg(n);
+    for(int i = 0;i < n;i++){
+        int x;cin >> x;
+        seg.assign(i,i + 1,x);
+    }
+    while (m--) {
+        int t;
+        cin >> t;
+        if (t == 1) {
+            int l, r, v;
+            cin >> l >> r >> v;
+            l--;
+            seg.add(l, r, v);
+        } else if (t == 2) {
+            int l, r, v;
+            cin >> l >> r >> v;
+            l--;
+            seg.assign(l, r, v);
+        } else {
+            int l, r;
+            cin >> l >> r;
+            l--;
+            cout << seg.get(l, r) << '\n';
+        }
+    }
+}
