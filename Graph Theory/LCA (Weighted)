@@ -1,0 +1,81 @@
+struct LCA {
+    int N, LOG, ROOT;
+    vector<int> depth;
+    vector<vector<int>> anc, sum;
+    vector<vector<pair<int,int>>> adj;
+ 
+    void init(int n, vector<vector<pair<int,int>>> &G, int root = 1){
+        N = n;
+        ROOT = root;
+        adj = G;
+        LOG = 0;
+        while((1 << LOG) <= N) LOG++;
+        depth.assign(N+5, 0);
+        anc.assign(LOG, vector<int>(N+5, 0));
+        sum.assign(LOG, vector<int>(N+5, 0));
+        dfs(ROOT);
+    }
+    int merge(int a,int b){
+        return a + b;
+    }
+    void dfs(int u, int p = 0){
+        for(auto [v,w] : adj[u]){
+            if(v == p) continue;
+            depth[v] = depth[u] + 1;
+            anc[0][v] = u;
+            sum[0][v] = w;
+            for(int bit = 1; bit < LOG; bit++){
+                int mid = anc[bit-1][v];
+                if(mid == 0) break;
+                anc[bit][v] = anc[bit-1][mid];
+                sum[bit][v] = merge(sum[bit-1][v], sum[bit-1][mid]);
+            }
+            dfs(v,u);
+        }
+    }
+ 
+    int query(int u, int v){
+        if(depth[u] < depth[v]) swap(u,v);
+        int ans_sum = 0;
+        int k = depth[u] - depth[v];
+        for(int bit = 0; bit < LOG; bit++){
+            if(k & (1 << bit)){
+                ans_sum = merge(ans_sum,sum[bit][u]);
+                u = anc[bit][u];
+            }
+        }
+        if(u == v) return ans_sum;
+        for(int bit = LOG-1; bit >= 0; bit--){
+            if(anc[bit][u] != anc[bit][v]){
+                ans_sum = merge(ans_sum,merge(sum[bit][u],sum[bit][v]));
+                u = anc[bit][u];
+                v = anc[bit][v];
+            }
+        }
+        ans_sum = merge(ans_sum,merge(sum[0][u],sum[0][v]));
+ 
+        return ans_sum;
+    }
+ 
+    int kth_ancestor(int u, int k){
+        if(depth[u] < k) return -1;
+        for(int bit = 0; bit < LOG; bit++)
+            if(k & (1 << bit))
+                u = anc[bit][u];
+        return u;
+    }
+ 
+    int get_lca(int u, int v){
+        if(depth[u] < depth[v]) swap(u,v);
+        u = kth_ancestor(u, depth[u] - depth[v]);
+        if(u == v) return u;
+        for(int bit = LOG-1; bit >= 0; bit--)
+            if(anc[bit][u] != anc[bit][v])
+                u = anc[bit][u], v = anc[bit][v];
+        return anc[0][u];
+    }
+ 
+    int get_dist(int u, int v){
+        return depth[u] + depth[v] - 2 * depth[get_lca(u,v)];
+    }
+};
