@@ -1,0 +1,32 @@
+struct Z_algo{
+    vector<int>buildZ(string &s){
+        int n = s.length();
+        vector<int>Z(n);
+        int l = 0, r = 0;
+        Z[0] = 0;
+        for(int i = 1;i < n;i++){
+            int k = i - l;
+            if(i >= r or i + Z[k] >= r){
+                l = i;
+                r = max(i, r);
+                while(r < n and s[r - l] == s[r])r++;
+                Z[i] = r - l;
+            }
+            else
+                Z[i] = Z[k];
+        }
+        return Z;
+    }
+
+    vector<int>match(string &text, string &pattern){
+        string s = pattern + '$' + text;
+        auto z = buildZ(s);
+        int m = pattern.size();
+        vector<int>pos;
+        for(int i = m + 1;i < s.size();i++){
+            if(z[i] == m)
+                pos.push_back(i - m);
+        }
+        return pos;
+    }
+};
