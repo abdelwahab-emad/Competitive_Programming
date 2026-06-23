@@ -1,0 +1,25 @@
+struct KMP{
+    vector<int>buildPrefix(string &s){
+        int n = s.size();
+        vector<int>prefix(n);
+        prefix[0] = 0;
+        int border = 0;
+        for(int i = 1;i < n;i++){
+            while(border > 0 and s[i] != s[border])border = prefix[border - 1];
+            if(s[i] == s[border])border++;
+            prefix[i] = border;
+        }
+        return prefix;
+    }
+    vector<int>match(string &text, string &pattern){
+        string s = pattern + '$' + text;
+        auto prefix = buildPrefix(s);
+        int m = pattern.size();
+        vector<int>pos;
+        for(int i = m + 1;i < s.size();i++){
+            if(prefix[i] == m)
+                pos.push_back(i - 2 * m + 1);
+        }
+        return pos;
+    }
+};
