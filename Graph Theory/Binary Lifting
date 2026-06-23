@@ -1,0 +1,32 @@
+struct Binary_Lifting{
+    int N, LOG;
+    vector<vector<int>> anc;
+    vector<int> a;
+
+    void init(int n, vector<int>&v){
+        N = n;
+        a = v;
+        LOG = 0;
+        while((1LL << LOG) <= 1e9) LOG++;
+        anc.assign(LOG, vector<int>(N+5, 0));
+        go();
+    }
+
+    void go(){
+        for(int i = 1; i <= N; i++) 
+            anc[0][i] = a[i];
+        for(int j = 1; j < LOG; j++){
+            for(int i = 1; i <= N; i++){
+                anc[j][i] = anc[j - 1][anc[j - 1][i]];
+            }
+        }
+    }
+
+    int kth_ancestor(int u, int k){
+        for(int i = 0; i < LOG; i++){
+            if(k & (1LL << i)) 
+                u = anc[i][u];
+        }
+        return u;
+    }
+};
