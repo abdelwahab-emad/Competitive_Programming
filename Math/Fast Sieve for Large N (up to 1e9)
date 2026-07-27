@@ -1,0 +1,72 @@
+1.	#include <bits/stdc++.h>
+2.	using namespace std;
+3.	
+4.	vector<int> fastSieve(int n, int Q = 17, int L = 1 << 15) {
+5.	    static const int rs[] = {1, 7, 11, 13, 17, 19, 23, 29};
+6.	    struct P {
+7.	        P(int p) : p(p) {}
+8.	        int p; int pos[8];
+9.	    };
+10.	    auto approxPrimeCount = [](int x) -> int {
+11.	        return x > 60184 ? x / (log(x) - 1.1)
+12.	                          : max(1.0, x / (log(x) - 1.11)) + 1;
+13.	    };
+14.	    int v = sqrt(n), vv = sqrt(v);
+15.	    vector<bool> isp(v + 1, true);
+16.	    for (int i = 2; i <= vv; i++)
+17.	        if (isp[i])
+18.	            for (int j = i * i; j <= v; j += i) isp[j] = false;
+19.	
+20.	    int rsize = approxPrimeCount(n + 30);
+21.	    vector<int> primes = {2, 3, 5};
+22.	    int psize = 3;
+23.	    primes.resize(rsize);
+24.	    vector<P> sprimes;
+25.	    int pbeg = 0, prod = 1;
+26.	    for (int p = 7; p <= v; p++) {
+27.	        if (!isp[p]) continue;
+28.	        if (p <= Q) prod *= p, pbeg++, primes[psize++] = p;
+29.	        P pp(p);
+30.	        for (int t = 0; t < 8; t++) {
+31.	            int j = (p <= Q) ? p : p * p;
+32.	            while (j % 30 != rs[t]) j += p << 1;
+33.	            pp.pos[t] = j / 30;
+34.	        }
+35.	        sprimes.push_back(pp);
+36.	    }
+37.	    vector<unsigned char> pre(prod, 0xFF);
+38.	    for (int pj = 0; pj < pbeg; pj++) {
+39.	        P &pp = sprimes[pj];
+40.	        int p = pp.p;
+41.	        for (int t = 0; t < 8; t++) {
+42.	            unsigned char m = ~(1 << t);
+43.	            for (int i = pp.pos[t]; i < prod; i += p) pre[i] &= m;
+44.	        }
+45.	    }
+46.	    int blockSize = (L + prod - 1) / prod * prod;
+47.	    vector<unsigned char> block(blockSize);
+48.	    unsigned char *pblock = block.data();
+49.	    int M = (n + 29) / 30;
+50.	    for (int beg = 0; beg < M; beg += blockSize, pblock -= blockSize) {
+51.	        int end = min(M, beg + blockSize);
+52.	        for (int i = beg; i < end; i += prod)
+53.	            copy(pre.begin(), pre.end(), pblock + i);
+54.	        if (beg == 0) pblock[0] &= 0xFE;
+55.	        for (size_t pj = pbeg; pj < sprimes.size(); pj++) {
+56.	            P &pp = sprimes[pj];
+57.	            int p = pp.p;
+58.	            for (int t = 0; t < 8; t++) {
+59.	                int i = pp.pos[t];
+60.	                unsigned char m = ~(1 << t);
+61.	                for (; i < end; i += p) pblock[i] &= m;
+62.	                pp.pos[t] = i;
+63.	            }
+64.	        }
+65.	        for (int i = beg; i < end; i++)
+66.	            for (int m = pblock[i]; m > 0; m &= m - 1)
+67.	                primes[psize++] = i * 30 + rs[__builtin_ctz(m)];
+68.	    }
+69.	    while (psize > 0 && primes[psize - 1] > n) psize--;
+70.	    primes.resize(psize);
+71.	    return primes;
+72.	}
