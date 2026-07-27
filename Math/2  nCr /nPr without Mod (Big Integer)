@@ -1,0 +1,27 @@
+1.	#include <bits/stdc++.h>
+2.	using namespace std;
+3.	typedef long long ll;
+4.	typedef __int128 lll;
+5.	
+6.	lll nCrBig(ll n, ll r) {
+7.	    if (r < 0 || r > n) return 0;
+8.	    r = min(r, n - r);
+9.	    lll res = 1;
+10.	    for (ll i = 0; i < r; i++)
+11.	        res = res * (n - i) / (i + 1);
+12.	    return res;
+13.	}
+14.	
+15.	lll nPrBig(ll n, ll r) {
+16.	    if (r < 0 || r > n) return 0;
+17.	    lll res = 1;
+18.	    for (ll i = 0; i < r; i++)
+19.	        res *= (n - i);
+20.	    return res;
+21.	}
+22.	
+23.	void print128(lll x) {
+24.	    if (x < 0) { cout << '-'; x = -x; }
+25.	    if (x > 9) print128(x / 10);
+26.	    cout << (int)(x % 10);
+27.	}
